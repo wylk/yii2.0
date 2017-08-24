@@ -1,0 +1,12 @@
+{
+    "name": "51ao03/web",
+    "require": {
+        "itsyc/yii2-taobao": "1"
+    },
+    "authors": [
+        {
+            "name": "lujiang",
+            "email": "HR@51ao.com"
+        }
+    ]
+}
