@@ -53,6 +53,8 @@ class IndexController extends Controller
         $this->layout = "layout1";
         $menu = new Menu();
         $menu = $menu->getMenuList();
+        // var_dump($menu);
+        // die;
         return $this->render('menu', [
             'menu' => $menu
         ]);

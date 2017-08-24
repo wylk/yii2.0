@@ -33,7 +33,45 @@ class User extends ActiveRecord implements IdentityInterface
     {
         return '{{%user}}';
     }
-
+    // public function getAuth_assignment()
+    // {
+    //     return $this->hasMany(AuthAssignment::className(), ['user_id' => 'id']);
+    // }
+    public function attributeLabels()
+    {
+        return [
+            'id' => 'ID',
+            'username' => '用户名',
+            'auth_key' => '密码',
+            'password' => 'Password',
+            'password_reset_token' => 'Password Reset Token',
+            'email' => '邮箱',
+            'status' => 'Status',
+            'created_at' => 'Created At',
+            'updated_at' => 'Updated At',
+        ];
+    }
+    public function getUsergrouplist()
+    {
+        /**
+         * 第一个参数为要关联的字表模型类名称，
+         *第二个参数指定 通过子表的 customer_id 去关联主表的 id 字段
+         */
+        return $this->hasMany(AuthAssignment::className(), ['user_id' => 'id']);
+    }
+     //获取所有用户
+    public function get_all_user(){
+        $user = Yii::$app->db->createCommand('select * from user')->queryAll();
+        return $user;
+    }
+    public function getUsergroup()
+    {
+        /**
+         * 第一个参数为要关联的字表模型类名称，
+         *第二个参数指定 通过子表的 customer_id 去关联主表的 id 字段
+         */
+        return $this->hasOne(AuthAssignment::className(), ['user_id' => 'id']);
+    }
     /**
      * @inheritdoc
      */
@@ -149,7 +187,7 @@ class User extends ActiveRecord implements IdentityInterface
      */
     public function validatePassword($password)
     {
-        return Yii::$app->security->validatePassword($password, $this->password_hash);
+        return Yii::$app->security->validatePassword($password, $this->password);
     }
 
     /**
@@ -159,7 +197,7 @@ class User extends ActiveRecord implements IdentityInterface
      */
     public function setPassword($password)
     {
-        $this->password_hash = Yii::$app->security->generatePasswordHash($password);
+        $this->password = Yii::$app->security->generatePasswordHash($password);
     }
 
     /**
